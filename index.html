@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>FitBuddy AI</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>💪 FitBuddy AI</h1>
+
+<input id="name" placeholder="Name">
+<input id="age" placeholder="Age">
+<input id="weight" placeholder="Weight">
+
+<select id="goal">
+<option>Weight Loss</option>
+<option>Muscle Gain</option>
+<option>General Fitness</option>
+</select>
+
+<select id="intensity">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<button onclick="generate()">Generate Plan</button>
+
+<pre id="plan"></pre>
+<p id="tip"></p>
+
+</div>
+
+<script>
+
+async function generate(){
+
+const data={
+name:document.getElementById("name").value,
+age:parseInt(document.getElementById("age").value),
+weight:parseInt(document.getElementById("weight").value),
+goal:document.getElementById("goal").value,
+intensity:document.getElementById("intensity").value
+}
+
+const res=await fetch("/generate",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+})
+
+const result=await res.json()
+
+document.getElementById("plan").innerText=result.plan
+document.getElementById("tip").innerText="Nutrition Tip: "+result.tip
+
+}
+
+</script>
+
+</body>
+</html>
